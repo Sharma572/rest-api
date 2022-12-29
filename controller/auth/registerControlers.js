@@ -13,12 +13,14 @@ const registerControler = {
     //[7] send-response
 
     // Validation
-    const regiterSchema = joi.object({
-      name: Joi.string.min(3).max(30).required(),
-      email: Joi.string().email().required() ,
-      password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3-30}$')).required(),
-      repeat_password: Joi.ref('password'),
+    const regiterSchema = Joi.object({
+      name: Joi.string().min(3).max(30).required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+      repeat_password: Joi.ref("password"),
     });
+
+    console.log(req.body);
 
     // Joi will going to validate schema.
     const {error} = regiterSchema.validate(req.body)
