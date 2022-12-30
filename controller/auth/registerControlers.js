@@ -1,5 +1,6 @@
 // A npm library for validation. 
 import Joi from "joi";
+import CustomErrorHandler from "../../services/CustomErrorHandler";
 const registerControler = {
  async register(req, res, next) {
     // CHECKLIST
@@ -28,6 +29,16 @@ const registerControler = {
     if(error){
         return next(error)
     }
+
+    //   Check user is already register in database.
+try {
+  const exist = await User.exist({email: req.body.email});
+  if(exist){
+   return next(CustomErrorHandler.alreadyExist("This Email is already taken"))
+  }
+} catch (err) {
+  return next(err)
+}
 
     res.json({ msg: "Hello From Express" });
   },
