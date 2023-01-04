@@ -4,7 +4,7 @@ import { ValidationError } from "joi";
 import CustomErrorHandler from '../services/CustomErrorHandler';
 
 const errorHandler =(err, req, res, next)=>{
-    // this error message for devloper phase
+    // this error message for developer phase
 let statusCode = 500;
 let data = {
   message: "Internal Server Error",
