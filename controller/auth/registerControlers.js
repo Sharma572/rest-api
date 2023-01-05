@@ -48,7 +48,7 @@
 
 import Joi from 'joi';
 import { User } from '../../models';
-
+import bcrypt from 'bcrypt'
 import CustomErrorHandler from '../../services/CustomErrorHandler';
 
 const registerController = {
@@ -85,8 +85,25 @@ const registerController = {
         return next(err);
     }
     
-   
+   // Hash Password
+   const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+   const {name,email,password} = req.body
+   // prepare the model
+   const user = {
+     name,
+     email,
+     password: hashedPassword
+   }
+   try {
+    const result = await User.bulkSave();
+   
+    // Token 
+    
+    
+  } catch (err) {
+    return next(err)
+   }
     
         res.json({ msg: "Hello From Express" });
     }
