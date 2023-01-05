@@ -1,4 +1,4 @@
-// SETP -1 Import Express module with help of esm module. 
+// STEP -1 Import Express module with help of esm module. 
 import express from 'express';
 import mongoose from 'mongoose';
 import {APP_PORT,DB_URL} from './config'
