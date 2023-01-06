@@ -62,7 +62,9 @@ const registerController = {
   } catch (err) {
     return next(err)
    }
-    
+
+    // console.log(access_token);
+//    Access_Token always store in clint side but it will verify on server
         res.json({ access_token: access_token });
     }
 }
