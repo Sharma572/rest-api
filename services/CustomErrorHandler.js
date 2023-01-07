@@ -8,6 +8,9 @@ class CustomErrorHandler extends Error {
     static alreadyExist(message){
       return new CustomErrorHandler(409, message);
     }
+    static wrongCredentials(message = "Username or Password is Invalid"){
+      return new CustomErrorHandler(401, message);
+    }
 }
 
 export default CustomErrorHandler
