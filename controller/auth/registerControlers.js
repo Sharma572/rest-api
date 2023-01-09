@@ -1,10 +1,11 @@
 
 
 import Joi from 'joi';
-import { User } from '../../models';
+import { RefreshToken, User } from '../../models';
 import bcrypt from 'bcrypt'
 import JwtService from '../../services/JwtService';
 import CustomErrorHandler from '../../services/CustomErrorHandler';
+import { REFRESH_TOKEN } from '../../config';
 
 const registerController = {
     async register(req, res, next) {
@@ -53,19 +54,24 @@ const registerController = {
   })
 
    let access_token;
+   let refresh_token;
    try {
     const result = await user.save();
    console.log(result);
     // Token 
     access_token = JwtService.sign({_id: result.id, role: result.role})
+    refresh_token = JwtService.sign({_id: result.id, role: result.role},'1y', REFRESH_TOKEN)
     
+    // database whitelist
+    await RefreshToken.create({token: refresh_token})
+
   } catch (err) {
     return next(err)
    }
 
     // console.log(access_token);
 //    Access_Token always store in clint side but it will verify on server
-        res.json({ access_token: access_token });
+        res.json({ access_token, refresh_token });
     }
 }
 
