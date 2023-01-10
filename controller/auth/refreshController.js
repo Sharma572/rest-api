@@ -26,10 +26,10 @@ const refreshController = {
        }
        let userId;
        try {
-        const {_id} = await JwtService.verify(refreshToken, REFRESH_TOKEN)
+        const {_id} = await JwtService.verify(refreshToken.token, REFRESH_TOKEN)
        userId = _id;  
     } catch (error) {
-        return next();
+        return next(CustomErrorHandler.unAuthorized('Invalid refresh token'));
        }
 
        const user = await User.findOne({_id:userId});
@@ -43,12 +43,12 @@ const refreshController = {
  
          // database whitelist
          await RefreshToken.create({token: refresh_token})
-         res.json((access_token, refresh_token))
+         res.json({ access_token, refresh_token })
 
        
     } catch (error) {
         return next(new Error('Something went Wong' + error.message))
     }
     }
-}
+};
 export default refreshController
