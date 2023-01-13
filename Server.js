@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import {APP_PORT,DB_URL} from './config'
 import errorHandler from './middleware/errorHandler';
+import path from 'path';
 
 // Connect app with express.
 const app = express();
@@ -15,6 +16,10 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open',()=>{
     console.log('DB Connected');
 })
+
+// this is global variable which can be used anywhere in the app
+global.appRoot = path.resolve(__dirname);
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use('/api', routes)
 
